@@ -1,0 +1,8 @@
+type: dense
+kwargs:
+  input_dim: 2
+  output_dim: 128
+  activation: gelu
+  n_layers: 2
+  n_activations: 1
+  input_shape: bld

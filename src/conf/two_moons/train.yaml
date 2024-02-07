@@ -1,0 +1,14 @@
+max_epochs: 100
+data:
+  image_size: 32
+  train_batch_size: 4
+  eval_batch_size: 4  # How many images to sample during eval
+optimizer:
+  name: Adam
+  learning_rate: 1e-4
+  weight_decay: 5e-5
+logging:
+  save_image_epochs: 10
+  save_model_epochs: 20
+seed: 42
+no_gpu: false 

@@ -1,0 +1,39 @@
+rollout:
+- layer:
+    kernel:
+      type: shift
+      kwargs:
+        d_kernel: 16
+        n_heads: 128
+        n_channels: 1
+        n_hidden_state: 1
+        skip_connection: false
+        closed_loop: true
+        train: true
+    decoder:
+      type: identity
+      kwargs:
+        input_dim: 128
+        output_dim: 128
+    skip_connection: true
+    closed_loop: True
+- layer:
+    kernel:
+      type: diag
+      kwargs:
+        d_kernel: 16
+        n_heads: 128
+        skip_connection: true
+        n_channels: 1
+        closed_loop: false
+        train: true
+    decoder:
+      type: dense
+      kwargs:
+        input_dim: 128
+        output_dim: 128
+        activation: gelu
+        n_layers: 2
+        n_activations: 1
+    skip_connection: true
+    closed_loop: false

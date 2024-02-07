@@ -1,0 +1,41 @@
+encoder:
+- layer:
+    kernel:
+      type: companion
+      kwargs:
+        d_kernel: 16
+        n_heads: 128
+        n_channels: 1
+        skip_connection: true
+        closed_loop: false
+        train: true
+    decoder:
+      type: dense
+      kwargs:
+        input_dim: 128
+        output_dim: 128
+        activation: gelu
+        n_layers: 2
+        n_activations: 1
+    skip_connection: true
+    closed_loop: false
+- layer:
+    kernel:
+      type: companion
+      kwargs:
+        d_kernel: 16
+        n_heads: 128
+        n_channels: 1
+        skip_connection: true
+        closed_loop: false
+        train: true
+    decoder:
+      type: dense
+      kwargs:
+        input_dim: 128
+        output_dim: 128
+        activation: gelu
+        n_layers: 2
+        n_activations: 1
+    skip_connection: true
+    closed_loop: false
