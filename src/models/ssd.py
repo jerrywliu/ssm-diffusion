@@ -6,12 +6,12 @@ import opt_einsum as oe
 from einops import rearrange, repeat
 
 from .ssm.companion import CompanionKernel
-from ssm.shift import ShiftKernel
-from ssm.diag import DiagKernel
-from ssm.encoder.repeat import RepeatEncoder
-from ssm.encoder.dense import DenseEncoder
-from ssm.encoder.convolution import ConvEncoder
-from ssm.encoder.identity import IdentityEncoder
+from .ssm.shift import ShiftKernel
+from .ssm.diag import DiagKernel
+from .ssm.encoder.repeat import RepeatEncoder
+from .ssm.encoder.dense import DenseEncoder
+from .ssm.encoder.convolution import ConvEncoder
+from .ssm.encoder.identity import IdentityEncoder
 
 class SSDLayer(nn.Module):
     def __init__(self, 
