@@ -5,7 +5,7 @@ import torch.nn.functional as F
 import opt_einsum as oe
 from einops import rearrange, repeat
 
-from . import OurModule
+from .. import OurModule
 
 class ConvEncoder(OurModule):
     """
