@@ -5,7 +5,7 @@ import torch.nn.functional as F
 import opt_einsum as oe
 from einops import rearrange, repeat
 
-from companion import CompanionKernel
+from .companion import CompanionKernel
 from .util import krylov
 
 class ShiftKernel(CompanionKernel):
