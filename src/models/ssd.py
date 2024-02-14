@@ -5,7 +5,7 @@ import torch.nn.functional as F
 import opt_einsum as oe
 from einops import rearrange, repeat
 
-from ssm.companion import CompanionKernel
+from .ssm.companion import CompanionKernel
 from ssm.shift import ShiftKernel
 from ssm.diag import DiagKernel
 from ssm.encoder.repeat import RepeatEncoder
