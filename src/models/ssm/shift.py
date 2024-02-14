@@ -6,7 +6,7 @@ import opt_einsum as oe
 from einops import rearrange, repeat
 
 from companion import CompanionKernel
-from util import krylov
+from .util import krylov
 
 class ShiftKernel(CompanionKernel):
     def __init__(self, n_hidden_state, **kwargs):
