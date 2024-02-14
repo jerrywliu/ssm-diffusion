@@ -10,7 +10,7 @@ from .ssm.shift import ShiftKernel
 from .ssm.diag import DiagKernel
 from .encoder.repeat import RepeatEncoder
 from .encoder.dense import DenseEncoder
-from .encoder.convolution import ConvEncoder
+from .encoder.conv import ConvEncoder
 from .encoder.identity import IdentityEncoder
 
 class SSDLayer(nn.Module):
