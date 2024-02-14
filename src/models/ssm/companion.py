@@ -6,7 +6,7 @@ import opt_einsum as oe
 from einops import rearrange, repeat
 
 from . import Kernel
-from util import krylov
+from .util import krylov
 
 class CompanionKernel(Kernel):
     def __init__(self, **kwargs):
