@@ -30,7 +30,7 @@ class SSDLayer(nn.Module):
         
         self.inference_only = False
         
-        # Bug with shape matching
+        # Bug with shape matching # to do
         # assert self.skip_connection is False
     
     # Kernel
