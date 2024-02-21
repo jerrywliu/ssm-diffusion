@@ -162,13 +162,13 @@ class trans_encoder(nn.Module):
     def forward(self, u):
         # u is shape B x L x D
         
-        z = self.encoder(self.input_encoder(u))
+        z = self.encoder(self.input_encoder(u))[0]
 
         # Compute closed-loop rollout
         z_rollout = self.compute_rollout(z)
         # rollout is a prediction for future samples, so keep first input sample
         z_rollout = torch.cat([z[:, :1, :], z_rollout[:, :-1, :]], dim=1)
-        y_rollout = self.input_decoder(self.decoder(z_rollout))
+        y_rollout = self.input_decoder(self.decoder(z_rollout)[0])
         
         
         # During training, can also compute outputs from available inputs
