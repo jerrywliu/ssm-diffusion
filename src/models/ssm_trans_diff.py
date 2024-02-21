@@ -12,7 +12,7 @@ from .encoder.repeat import RepeatEncoder
 from .encoder.dense import DenseEncoder
 from .encoder.conv import ConvEncoder
 from .encoder.identity import IdentityEncoder
-from .transformer.small_transformer import GPTConfig, GPT
+from .transformer.small_transformer import GPTConfig, GPT, TransformerEncoder
 from .ssd import SSDLayer, SSD
 
 class ssm_trans(nn.Module):
@@ -120,8 +120,8 @@ class trans_encoder(nn.Module):
         
     def init_layers(self):
 
-        encoder = GPT(GPTConfig)
-        decoder = GPT(GPTConfig)
+        encoder = TransformerEncoder(50,49,128)
+        decoder = TransformerEncoder(50,49,128)
         
         rollout = []
         for ix, layer_config in enumerate(self.rollout_config):
@@ -162,14 +162,14 @@ class trans_encoder(nn.Module):
     def forward(self, u):
         # u is shape B x L x D
         
-        z = self.encoder(self.input_encoder(u))[0]
+        z = self.encoder(self.input_encoder(u))
         print(z.shape)
         # Compute closed-loop rollout
         z_rollout = self.compute_rollout(z)
         # rollout is a prediction for future samples, so keep first input sample
         z_rollout = torch.cat([z[:, :1, :], z_rollout[:, :-1, :]], dim=1)
         
-        y_rollout = self.input_decoder(self.decoder(z_rollout)[0])
+        y_rollout = self.input_decoder(self.decoder(z_rollout))
         
         
         # During training, can also compute outputs from available inputs

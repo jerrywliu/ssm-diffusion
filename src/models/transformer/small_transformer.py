@@ -235,4 +235,64 @@ class GPT(nn.Module):
             idx = torch.cat((idx, logits.unsqueeze(1)), dim=1)
 
         return idx
-        
+
+
+
+class TransformerEncoder(nn.Module):
+    def __init__(self, input_dim, num_heads, hidden_dim, num_layers):
+        super(TransformerEncoder, self).__init__()
+        self.embedding = nn.Linear(input_dim, hidden_dim)
+        self.positional_encoding = PositionalEncoding(hidden_dim)
+        self.encoder_layers = nn.ModuleList([
+            TransformerEncoderLayer(hidden_dim, num_heads) for _ in range(num_layers)
+        ])
+        self.output_projection = nn.Linear(hidden_dim, input_dim)
+
+    def forward(self, x):
+        # x: input tensor with shape (B, L, D)
+        x = self.embedding(x)
+        x = self.positional_encoding(x)
+        for encoder_layer in self.encoder_layers:
+            x = encoder_layer(x)
+        x = self.output_projection(x)
+        return x
+
+class TransformerEncoderLayer(nn.Module):
+    def __init__(self, hidden_dim, num_heads):
+        super(TransformerEncoderLayer, self).__init__()
+        self.self_attention = nn.MultiheadAttention(hidden_dim, num_heads)
+        self.feedforward = nn.Sequential(
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, hidden_dim)
+        )
+        self.layer_norm1 = nn.LayerNorm(hidden_dim)
+        self.layer_norm2 = nn.LayerNorm(hidden_dim)
+
+    def forward(self, x):
+        # x: input tensor with shape (L, B, D)
+        residual = x
+        x = self.layer_norm1(x)
+        x, _ = self.self_attention(x, x, x)
+        x = x + residual  # residual connection
+        residual = x
+        x = self.layer_norm2(x)
+        x = self.feedforward(x)
+        x = x + residual  # residual connection
+        return x
+
+class PositionalEncoding(nn.Module):
+    def __init__(self, hidden_dim, max_len=5000):
+        super(PositionalEncoding, self).__init__()
+        self.dropout = nn.Dropout(p=0.1)
+        pe = torch.zeros(max_len, hidden_dim)
+        position = torch.arange(0, max_len, dtype=torch.float).unsqueeze(1)
+        div_term = torch.exp(torch.arange(0, hidden_dim, 2).float() * (-torch.log(torch.tensor(10000.0)) / hidden_dim))
+        pe[:, 0::2] = torch.sin(position * div_term)
+        pe[:, 1::2] = torch.cos(position * div_term)
+        pe = pe.unsqueeze(0).transpose(0, 1)
+        self.register_buffer('pe', pe)
+
+    def forward(self, x):
+        x = x + self.pe[:x.size(0), :]
+        return self.dropout(x)
