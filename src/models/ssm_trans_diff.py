@@ -86,11 +86,10 @@ class ssm_trans(nn.Module):
         z_rollout = self.compute_rollout(z, 50)
         y_rollout = self.input_decoder(self.decoder(z_rollout))
         
-        if not self.inference_only:
-            # During training, can also compute outputs from available inputs
-            y = self.input_decoder(self.decoder(z))
-        else:
-            y = None
+        
+        # During training, can also compute outputs from available inputs
+        y = self.input_decoder(self.decoder(z))
+
             
         return y_rollout, y, z_rollout, z
 
