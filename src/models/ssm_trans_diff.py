@@ -120,8 +120,10 @@ class trans_encoder(nn.Module):
         
     def init_layers(self):
 
-        encoder = TransformerEncoder(50,49,128)
-        decoder = TransformerEncoder(50,49,128)
+        encoder = TransformerEncoder(input_dim=128, 
+        num_heads=12, hidden_dim=64, num_layers=4)
+        decoder = TransformerEncoder(input_dim=128, 
+        num_heads=12, hidden_dim=64, num_layers=4)
         
         rollout = []
         for ix, layer_config in enumerate(self.rollout_config):
