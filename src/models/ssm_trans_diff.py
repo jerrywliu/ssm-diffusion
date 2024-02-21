@@ -120,19 +120,13 @@ class trans_encoder(nn.Module):
         return encoder_class(**encoder_args['kwargs'])
         
     def init_layers(self):
-        encoder = []
-        decoder = []
-        rollout = []
+
+        encoder = GPT(GPTConfig)
+        decoder = GPT(GPTConfig)
         
-        for ix, layer_config in enumerate(self.encoder_config):
-            encoder.append(SSDLayer(**layer_config.layer))
-        for ix, layer_config in enumerate(self.decoder_config):
-            decoder.append(SSDLayer(**layer_config.layer))
+        rollout = []
         for ix, layer_config in enumerate(self.rollout_config):
-            rollout.append(SSDLayer(**layer_config.layer))
-            
-        encoder = nn.Sequential(*encoder)
-        decoder = nn.Sequential(*decoder)
+            rollout.append(SSDLayer(**layer_config.layer))       
         rollout = nn.Sequential(*rollout)
         
         input_encoder = self._init_encoder(self.input_encoder_config)
@@ -168,9 +162,9 @@ class trans_encoder(nn.Module):
         
     def forward(self, u):
         # u is shape B x L x D
-        print(self.input_encoder(u).shape)
+        
         z = self.encoder(self.input_encoder(u))
-        print(z.shape)
+
         # Compute closed-loop rollout
         z_rollout = self.compute_rollout(z)
         # rollout is a prediction for future samples, so keep first input sample
@@ -178,7 +172,7 @@ class trans_encoder(nn.Module):
         y_rollout = self.input_decoder(self.decoder(z_rollout))
         
         
-            # During training, can also compute outputs from available inputs
+        # During training, can also compute outputs from available inputs
         y = self.input_decoder(self.decoder(z))
         
             
