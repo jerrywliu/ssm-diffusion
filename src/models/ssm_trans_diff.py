@@ -177,11 +177,10 @@ class trans_encoder(nn.Module):
         z_rollout = torch.cat([z[:, :1, :], z_rollout[:, :-1, :]], dim=1)
         y_rollout = self.input_decoder(self.decoder(z_rollout))
         
-        if not self.inference_only:
+        
             # During training, can also compute outputs from available inputs
-            y = self.input_decoder(self.decoder(z))
-        else:
-            y = None
+        y = self.input_decoder(self.decoder(z))
+        
             
         return y_rollout, y, z_rollout, z
  
