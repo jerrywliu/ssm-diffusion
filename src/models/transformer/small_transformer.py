@@ -198,7 +198,7 @@ class GPT(nn.Module):
 
         return optimizer
 
-    @torch.no_grad()
+    #@torch.no_grad()
     def generate(self, idx, max_new_tokens, temperature=1.0, top_k=None):
         """
         Take a conditioning sequence of indices idx (LongTensor of shape (b,t)) and complete
