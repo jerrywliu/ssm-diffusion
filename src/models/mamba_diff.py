@@ -13,7 +13,7 @@ from .encoder.repeat import RepeatEncoder
 from .encoder.dense import DenseEncoder
 from .encoder.conv import ConvEncoder
 from .encoder.identity import IdentityEncoder
-from .mamba import Mamba
+from .mamba-main. import Mamba
 from .ssd import SSDLayer, SSD
 
 
